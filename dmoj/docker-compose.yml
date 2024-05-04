@@ -13,45 +13,23 @@ services:
     image: redis:alpine
     restart: always
     networks: [site]
-  texoid:
-    build:
-      context: .
-      dockerfile: ./texoid/Dockerfile
-    image: ninjaclasher/dmoj-texoid
-    init: true
-    restart: unless-stopped
-    networks: [site]
-  pdfoid:
-    build:
-      context: .
-      dockerfile: ./pdfoid/Dockerfile
-    image: ninjaclasher/dmoj-pdfoid
-    init: true
-    restart: unless-stopped
-    networks: [site]
-    cap_add:
-      - SYS_ADMIN
-  mathoid:
-    build:
-      context: .
-      dockerfile: ./mathoid/Dockerfile
-    image: ninjaclasher/dmoj-mathoid
-    init: true
-    restart: unless-stopped
-    volumes:
-      - ./mathoid/config.yaml:/node_modules/mathoid/config.yaml
-    networks: [site]
   base:
     build:
       context: .
       dockerfile: ./base/Dockerfile
-    image: ninjaclasher/dmoj-base
+    image: zharaskhan/dmoj-base
+    network_mode: none
+  prod:
+    build:
+      context: .
+      dockerfile: ./prod/Dockerfile
+    image: zharaskhan/dmoj-prod
     network_mode: none
   site:
     build:
       context: .
       dockerfile: ./site/Dockerfile
-    image: ninjaclasher/dmoj-site
+    image: zharaskhan/dmoj-site
     init: true
     restart: unless-stopped
     volumes:
@@ -70,7 +48,7 @@ services:
     build:
       context: .
       dockerfile: ./celery/Dockerfile
-    image: ninjaclasher/dmoj-celery
+    image: zharaskhan/dmoj-celery
     init: true
     restart: unless-stopped
     volumes:
@@ -85,7 +63,7 @@ services:
     build:
       context: .
       dockerfile: ./bridged/Dockerfile
-    image: ninjaclasher/dmoj-bridged
+    image: zharaskhan/dmoj-bridged
     init: true
     restart: unless-stopped
     volumes:
@@ -98,18 +76,6 @@ services:
     ports:
       - 9999:9999
     depends_on: [base, db, redis]
-  wsevent:
-    build:
-      context: .
-      dockerfile: ./wsevent/Dockerfile
-    image: ninjaclasher/dmoj-wsevent
-    init: true
-    restart: unless-stopped
-    volumes:
-      - ./repo/:/app/site/
-    working_dir: /app/site
-    env_file: [environment/mysql.env, environment/site.env]
-    networks: [site, nginx]
   nginx:
     container_name: dmoj_nginx
     image: nginx:alpine
@@ -124,7 +90,7 @@ services:
       - ./media/:/media/
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     networks: [nginx]
-    depends_on: [site, wsevent]
+    depends_on: [site]
 networks:
   site:
   db:

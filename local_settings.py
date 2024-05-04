@@ -15,6 +15,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', '0') == '1'
 HOST = os.environ.get('HOST', '')
+REDIS_HOST = os.environ.get('REDIS_HOST', 'redis')
+CPFED_TOKEN = os.environ.get('CPFED_TOKEN', SECRET_KEY)
 
 # Uncomment and set to the domain names this site is intended to serve.
 # You must do this once you set DEBUG to False.
@@ -28,7 +30,7 @@ INSTALLED_APPS += ()
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
+        'LOCATION': f'redis://{REDIS_HOST}:6379/1',
     }
 }
 
@@ -54,8 +56,8 @@ DATABASES = {
 
 # Internationalization.
 # Documentation: <https://docs.djangoproject.com/en/1.11/topics/i18n/>
-LANGUAGE_CODE = 'en-ca'
-DEFAULT_USER_TIME_ZONE = 'America/Toronto'
+LANGUAGE_CODE = 'kk-KZ'
+DEFAULT_USER_TIME_ZONE = 'Asia/Almaty'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -80,15 +82,16 @@ STATICFILES_FINDERS += ('compressor.finders.CompressorFinder',)
 # your email settings.
 
 # Use this if you are just testing.
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # The following block is included for your convenience, if you want 
 # to use Gmail.
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_HOST_USER = '<your account>@gmail.com'
-#EMAIL_HOST_PASSWORD = '<your password>'
-#EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_PORT = 587
+
 
 # To use Mailgun, uncomment this block.
 # You will need to run `pip install django-mailgun` for to get `MailgunBackend`.
@@ -108,7 +111,7 @@ STATICFILES_FINDERS += ('compressor.finders.CompressorFinder',)
 ADMINS = ()
 
 # The sender for the aforementioned emails.
-SERVER_EMAIL = 'DMOJ: Modern Online Judge <errors@dmoj.ca>'
+SERVER_EMAIL = f'DMOJ: Modern Online Judge <{EMAIL_HOST_USER}>'
 
 
 ##################################################
@@ -135,17 +138,17 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesSto
 ## DMOJ site display settings.
 SITE_NAME = 'DMOJ'
 SITE_LONG_NAME = 'DMOJ: Modern Online Judge'
-SITE_ADMIN_EMAIL = 'admin@example.com'
+SITE_ADMIN_EMAIL = os.environ.get('SITE_ADMIN_EMAIL', '')
 TERMS_OF_SERVICE_URL = None
 
 ## Bridge controls.
 # The judge connection address and port; where the judges will connect to the site.
 # You should change this to something your judges can actually connect to 
 # (e.g., a port that is unused and unblocked by a firewall).
-BRIDGED_JUDGE_ADDRESS = [('bridged', 9999)]
+BRIDGED_JUDGE_ADDRESS = [(os.environ.get('BRIDGED_JUDGE_ADDRESS', 'bridged'), 9999)]
 
 # The bridged daemon bind address and port to communicate with the site.
-BRIDGED_DJANGO_ADDRESS = [('bridged', 9998)]
+BRIDGED_DJANGO_ADDRESS = [(os.environ.get('BRIDGED_DJANGO_ADDRESS', 'bridged'), 9998)]
 
 ## DMOJ features.
 # Set to True to enable full-text searching for problems.
@@ -156,19 +159,19 @@ BAD_MAIL_PROVIDERS = set()
 
 ## Event server.
 # Uncomment to enable live updating.
-EVENT_DAEMON_USE = True
+# EVENT_DAEMON_USE = True
 
 # Uncomment this section to use websocket/daemon.js included in the site.
 #EVENT_DAEMON_POST = '<ws:// URL to post to>'
 
 # If you are using the defaults from the guide, it is this:
-EVENT_DAEMON_POST = 'ws://wsevent:15101/'
+# EVENT_DAEMON_POST = 'ws://wsevent:15101/'
 
 # These are the publicly accessed interface configurations.
 # They should match those used by the script.
-EVENT_DAEMON_GET = 'ws://{host}/event/'.format(host=HOST)
-EVENT_DAEMON_GET_SSL = 'wss://{host}/event/'.format(host=HOST)
-EVENT_DAEMON_POLL = '/channels/'
+# EVENT_DAEMON_GET = 'ws://{host}/event/'.format(host=HOST)
+# EVENT_DAEMON_GET_SSL = 'wss://{host}/event/'.format(host=HOST)
+# EVENT_DAEMON_POLL = '/channels/'
 
 # If you would like to use the AMQP-based event server from <https://github.com/DMOJ/event-server>,
 # uncomment this section instead. This is more involved, and recommended to be done
@@ -207,38 +210,38 @@ TIMEZONE_MAP = 'http://naturalearth.springercarto.com/ne3_data/8192/textures/3_n
 
 ## PDF rendering settings.
 # Directory to cache the PDF.
-DMOJ_PDF_PROBLEM_CACHE = '/pdfcache'
+# DMOJ_PDF_PROBLEM_CACHE = '/pdfcache'
 
 # Path to use for nginx's X-Accel-Redirect feature.
 # Should be an internal location mapped to the above directory.
-DMOJ_PDF_PROBLEM_INTERNAL = '/pdfcache'
+# DMOJ_PDF_PROBLEM_INTERNAL = '/pdfcache'
 
 
-DMOJ_USER_DATA_DOWNLOAD = True
-DMOJ_USER_DATA_CACHE = '/datacache'
-DMOJ_USER_DATA_INTERNAL = '/datacache'
+# DMOJ_USER_DATA_DOWNLOAD = True
+# DMOJ_USER_DATA_CACHE = '/datacache'
+# DMOJ_USER_DATA_INTERNAL = '/datacache'
 
 #############
 ## Mathoid ##
 #############
 # Documentation: https://github.com/wikimedia/mathoid
-MATHOID_URL = 'http://mathoid:10044'
-MATHOID_CACHE_ROOT = '/cache/mathoid/'
-MATHOID_CACHE_URL = '//{host}/mathoid/'.format(host=HOST)
+# MATHOID_URL = 'http://mathoid:10044'
+# MATHOID_CACHE_ROOT = '/cache/mathoid/'
+# MATHOID_CACHE_URL = '//{host}/mathoid/'.format(host=HOST)
 
 ############
 ## Pdfoid ##
 ############
 
-DMOJ_PDF_PDFOID_URL = 'http://pdfoid:8888'
+# DMOJ_PDF_PDFOID_URL = 'http://pdfoid:8888'
 
 ############
 ## Texoid ##
 ############
 
-TEXOID_URL = 'http://texoid:8888'
-TEXOID_CACHE_ROOT = '/cache/texoid/'
-TEXOID_CACHE_URL = '//{host}/texoid/'.format(host=HOST)
+# TEXOID_URL = 'http://texoid:8888'
+# TEXOID_CACHE_ROOT = '/cache/texoid/'
+# TEXOID_CACHE_URL = '//{host}/texoid/'.format(host=HOST)
 
 ## ======== Logging Settings ========
 # Documentation: https://docs.djangoproject.com/en/1.9/ref/settings/#logging
@@ -291,12 +294,12 @@ LOGGING = {
 #CSRF_COOKIE_SECURE = True
 #SESSION_COOKIE_SECURE = True
 
-REGISTRATION_OPEN = False
-DMOJ_RATING_COLORS = True
+REGISTRATION_OPEN = True
+DMOJ_RATING_COLORS = False
 X_FRAME_OPTIONS = 'DENY'
 
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:6379/0'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:6379/0'
 
 DMOJ_PROBLEM_DATA_ROOT = '/problems/'
 
@@ -304,3 +307,9 @@ DMOJ_RESOURCES = '/assets/resources/'
 
 MEDIA_ROOT = '/media/'
 MEDIA_URL = '/media/'
+
+LANGUAGES = [
+    ('kk', _('Kazakh')),
+    ('en', _('English')),
+    ('ru', _('Russian')),
+]
