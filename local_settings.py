@@ -6,6 +6,7 @@
 # for more info and help. If you are stuck, you can try Googling about
 # Django - many of these settings below have external documentation about them.
 #
+#
 # The settings listed here are of special interest in configuring the site.
 
 # SECURITY WARNING: keep the secret key used in production secret!
