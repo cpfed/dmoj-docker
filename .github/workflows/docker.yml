@@ -1,7 +1,9 @@
 name: Build Docker Images
 on:
   push:
+    branches: [master]
   pull_request:
+    types: [opened, synchronize]
   schedule:
     - cron: '0 0 * * 1'
   workflow_dispatch: # This enables manual execution
