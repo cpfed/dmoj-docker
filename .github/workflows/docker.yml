@@ -9,17 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Initialize submodules
         run: |
           git submodule update --init --recursive --remote
       - name: Build images
-        run: docker-compose build
+        run: docker compose build
         working-directory: dmoj
       - name: Test images
         run: |
           ./scripts/initialize
-          docker-compose up -d
+          docker compose up -d
           sleep 10
           COMPOSE_EXEC_FLAGS="-T" ./scripts/copy_static
           COMPOSE_EXEC_FLAGS="-T" ./scripts/migrate
