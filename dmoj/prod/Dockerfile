@@ -6,5 +6,3 @@ RUN wget https://github.com/jgm/pandoc/releases/download/3.1.8/pandoc-3.1.8-1-am
     rm pandoc-3.1.8-1-amd64.deb
 
 ADD repo /site/
-COPY local_settings.py /site/dmoj/
-COPY uwsgi.ini /site/

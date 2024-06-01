@@ -1,7 +1,9 @@
 name: Build Docker Images
 on:
   push:
+    branches: [master]
   pull_request:
+    types: [opened, synchronize]
   schedule:
     - cron: '0 0 * * 1'
   workflow_dispatch: # This enables manual execution
@@ -9,27 +11,29 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Initialize submodules
-        run: |
-          git submodule update --init --recursive --remote
+        run: git submodule update --init --recursive --remote
       - name: Build images
-        run: docker-compose build
+        run: docker compose build
         working-directory: dmoj
       - name: Test images
         run: |
           ./scripts/initialize
-          docker-compose up -d
+          docker compose up -d
           sleep 10
-          COMPOSE_EXEC_FLAGS="-T" ./scripts/copy_static
-          COMPOSE_EXEC_FLAGS="-T" ./scripts/migrate
-          COMPOSE_EXEC_FLAGS="-T" ./scripts/manage.py loaddata language_small
+          export COMPOSE_EXEC_FLAGS="-T"
+          ./scripts/copy_static
+          ./scripts/migrate
+          ./scripts/manage.py loaddata language_small
         working-directory: dmoj
       - name: Push images to Docker
         if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/master'
         run: |
           echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+          docker build -t zharaskhan/dmoj-prod . -f prod/Dockerfile
           docker push zharaskhan/dmoj-prod:latest
+        working-directory: dmoj
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
