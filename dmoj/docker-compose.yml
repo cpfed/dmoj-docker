@@ -40,6 +40,7 @@ services:
       - pdfcache:/pdfcache/
       - datacache:/datacache/
       - ./repo/:/site/
+      - ./problems/:/problems/
     working_dir: /site/
     env_file: [environment/mysql.env, environment/site.env]
     networks: [site, db]
@@ -55,9 +56,11 @@ services:
       - ./repo/:/site/
     working_dir: /site/
     env_file: [environment/mysql.env, environment/site.env]
-    networks: [site, nginx, db]
+    environment:
+      - BRIDGED_JUDGE_ADDRESS=0.0.0.0
+    networks: [site, nginx, db, judge]
     ports:
-      - 9999:9999
+      - 127.0.0.1:9999:9999
     depends_on: [db, redis]
   nginx:
     container_name: dmoj_nginx
@@ -114,10 +117,24 @@ services:
   #   working_dir: /app/site
   #   env_file: [environment/mysql.env, environment/site.env]
   #   networks: [site, nginx]
+  judge:
+    build: judge
+    image: zharaskhan/dmoj-judge
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:9998:9998
+    cap_add:
+      - SYS_PTRACE
+    volumes:
+      - ./problems/:/problems/
+    command: ["run", "-p", "9999", "-c", "/problems/judge.yml", "bridged", "judge", "judge"]
+    networks: [judge]
+    depends_on: [bridged]
 networks:
   site:
   db:
   nginx:
+  judge:
 volumes:
   assets:
   pdfcache:
