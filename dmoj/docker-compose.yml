@@ -40,6 +40,7 @@ services:
       - pdfcache:/pdfcache/
       - datacache:/datacache/
       - ./repo/:/site/
+      - ./media/:/media/
       - ./problems/:/problems/
     working_dir: /site/
     env_file: [environment/mysql.env, environment/site.env]
