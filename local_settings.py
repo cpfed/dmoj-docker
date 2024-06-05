@@ -315,5 +315,6 @@ LANGUAGES = [
     ('ru', _('Russian')),
 ]
 
-POLYGON_LOGIN = os.environ.get('POLYGON_LOGIN', '')
-POLYGON_PASSWORD = os.environ.get('POLYGON_PASSWORD', '')
+POLYGON_API_KEY = os.environ.get('POLYGON_API_KEY', '')
+POLYGON_API_SECRET = os.environ.get('POLYGON_API_SECRET', '')
+POLYGON_USER = os.environ.get('POLYGON_USER', '')

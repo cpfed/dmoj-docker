@@ -127,7 +127,7 @@ services:
       - SYS_PTRACE
     volumes:
       - ./problems/:/problems/
-    command: ["run", "-p", "9999", "-c", "/problems/judge.yml", "bridged", "judge", "judge"]
+    command: ["run", "-p", "9999", "-c", "/judge.yml", "bridged", "judge", "judge"]
     networks: [judge]
     depends_on: [bridged]
 networks:

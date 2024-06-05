@@ -29,4 +29,6 @@ RUN mkdir /judge /problems && cd /judge && \
 	runuser -u judge -w PATH -- /env/bin/dmoj-autoconf -V > /judge-runtime-paths.yml && \
 	echo '  crt_x86_in_lib32: true' >> /judge-runtime-paths.yml
 
+COPY judge.yml /judge.yml
+
 ENTRYPOINT ["/usr/bin/tini", "--", "/judge/.docker/entry"]
