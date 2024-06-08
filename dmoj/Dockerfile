@@ -17,3 +17,8 @@ RUN pip3 install \
 
 COPY repo/requirements.txt .
 RUN pip3 install -r requirements.txt
+
+# Install Pandoc
+RUN wget https://github.com/jgm/pandoc/releases/download/3.1.8/pandoc-3.1.8-1-amd64.deb && \
+    dpkg -i pandoc-3.1.8-1-amd64.deb && \
+    rm pandoc-3.1.8-1-amd64.deb
