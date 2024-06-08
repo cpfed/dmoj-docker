@@ -82,9 +82,6 @@ STATICFILES_FINDERS += ('compressor.finders.CompressorFinder',)
 # for more documentation. You should follow the information there to define
 # your email settings.
 
-# Use this if you are just testing.
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # The following block is included for your convenience, if you want
 # to use Gmail.
 EMAIL_HOST = 'smtp.gmail.com'
@@ -93,6 +90,9 @@ EMAIL_USE_TLS = EMAIL_HOST_USER != ''
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_PORT = 587
 
+# Use this if you are just testing.
+if EMAIL_HOST_USER == '':
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # To use Mailgun, uncomment this block.
 # You will need to run `pip install django-mailgun` for to get `MailgunBackend`.
