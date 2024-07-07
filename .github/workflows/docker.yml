@@ -15,12 +15,12 @@ jobs:
       - name: Initialize submodules
         run: git submodule update --init --recursive --remote
       - name: Build images
-        run: docker compose build
+        run: docker compose build site
         working-directory: dmoj
       - name: Test images
         run: |
           ./scripts/initialize
-          docker compose up -d
+          docker compose up -d db redis site celery bridged nginx
           sleep 10
           export COMPOSE_EXEC_FLAGS="-T"
           ./scripts/copy_static
