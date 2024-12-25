@@ -1,7 +1,7 @@
-DMOJ Docker [![Build Status](https://github.com/Ninjaclasher/dmoj-docker/workflows/Build%20Docker%20Images/badge.svg)](https://github.com/Ninjaclasher/dmoj-docker/actions/)
+DMOJ Docker [![Build Status](https://github.com/cpfed/dmoj-docker/workflows/Build%20Docker%20Images/badge.svg)](https://github.com/cpfed/dmoj-docker/actions/)
 =====
 
-This repository contains the Docker files to run a clone of the [DMOJ site](https://github.com/DMOJ/online-judge). It configures some additional services, such as mathoid, pdfoid, and texoid.
+This repository contains the Docker files to run a clone of the [DMOJ site](https://github.com/cpfed/online-judge). It configures some additional services, such as mathoid, pdfoid, and texoid.
 
 ## Installation
 
@@ -9,7 +9,7 @@ First, [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docke
 
 Clone the repository:
 ```sh
-$ git clone https://github.com/Ninjaclasher/dmoj-docker
+$ git clone https://github.com/cpfed/dmoj-docker
 $ cd dmoj-docker
 $ git submodule update --init --recursive
 $ cd dmoj
