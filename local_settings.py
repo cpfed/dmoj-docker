@@ -320,3 +320,5 @@ POLYGON_API_SECRET = os.environ.get('POLYGON_API_SECRET', '')
 POLYGON_USER = os.environ.get('POLYGON_USER', '')
 
 JWT_SECRET = os.environ.get('JWT_SECRET', '')
+
+USE_X_FORWARDED_HOST = True
