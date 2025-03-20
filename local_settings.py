@@ -19,6 +19,8 @@ HOST = os.environ.get('HOST', '')
 REDIS_HOST = os.environ.get('REDIS_HOST', 'redis')
 CPFED_TOKEN = os.environ.get('CPFED_TOKEN', SECRET_KEY)
 
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://esep.cpfed.kz,https://app.oqylyq.kz").split(",")
+
 # Uncomment and set to the domain names this site is intended to serve.
 # You must do this once you set DEBUG to False.
 ALLOWED_HOSTS = [HOST]
