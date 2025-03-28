@@ -323,4 +323,6 @@ POLYGON_USER = os.environ.get('POLYGON_USER', '')
 
 JWT_SECRET = os.environ.get('JWT_SECRET', '')
 
+SENTRY_DSN = os.environ.get('SENTRY_DSN', '')
+
 USE_X_FORWARDED_HOST = True
