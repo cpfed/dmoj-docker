@@ -325,4 +325,15 @@ JWT_SECRET = os.environ.get('JWT_SECRET', '')
 
 SENTRY_DSN = os.environ.get('SENTRY_DSN', '')
 
+try:
+    import sentry_sdk
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        send_default_pii=True,
+        traces_sample_rate=0.1,
+        profiles_sample_rate=0.2, # this is relative to traces (i.e. 0.1*0.2 of total transactions are profiled)
+    )
+except Exception as e:
+    pass
+
 USE_X_FORWARDED_HOST = True
