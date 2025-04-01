@@ -20,6 +20,11 @@ REDIS_HOST = os.environ.get('REDIS_HOST', 'redis')
 CPFED_TOKEN = os.environ.get('CPFED_TOKEN', SECRET_KEY)
 
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://esep.cpfed.kz,https://app.oqylyq.kz").split(",")
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
+
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "https://app.oqylyq.kz").split(",")
 CORS_ALLOW_CREDENTIALS = True
 
