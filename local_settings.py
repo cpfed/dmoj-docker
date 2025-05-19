@@ -339,8 +339,7 @@ try:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         send_default_pii=True,
-        traces_sample_rate=0.1,
-        profiles_sample_rate=0.2, # this is relative to traces (i.e. 0.1*0.2 of total transactions are profiled)
+        traces_sample_rate=0.1
     )
 except Exception as e:
     pass
