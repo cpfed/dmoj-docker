@@ -3,6 +3,8 @@ FROM node:alpine
 WORKDIR /app/
 RUN npm install qu ws simplesets
 
+ADD repo /app/site/
+
 EXPOSE 15100
 EXPOSE 15101
 EXPOSE 15102
