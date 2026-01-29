@@ -345,3 +345,5 @@ except Exception as e:
     pass
 
 USE_X_FORWARDED_HOST = True
+
+TRUSTEXAM_API_KEY = 'Q7aS9Dk2MZx4P8L'
