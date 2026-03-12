@@ -228,6 +228,7 @@ TIMEZONE_MAP = 'http://naturalearth.springercarto.com/ne3_data/8192/textures/3_n
 # Should be an internal location mapped to the above directory.
 # DMOJ_PDF_PROBLEM_INTERNAL = '/pdfcache'
 
+DMOJ_ENABLE_COMMENTS = False
 
 # DMOJ_USER_DATA_DOWNLOAD = True
 # DMOJ_USER_DATA_CACHE = '/datacache'
