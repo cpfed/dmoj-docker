@@ -11,7 +11,9 @@ RUN apt-get update && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g sass postcss-cli postcss autoprefixer
+# Pin the CSS toolchain: sass >=1.78 pulls in ESM-only chokidar that requires
+# Node >=18, which crashes (ERR_REQUIRE_ESM) on the Node 16 installed above.
+RUN npm install -g sass@1.77.8 postcss-cli@11.0.1 postcss@8.4.47 autoprefixer@10.4.20
 RUN pip3 install \
         pymysql mysqlclient websocket-client uwsgi django-redis redis
 
