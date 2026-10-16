@@ -325,6 +325,7 @@ LANGUAGES = [
     ('kk', _('Kazakh')),
     ('en', _('English')),
     ('ru', _('Russian')),
+    ('uz', 'Uzbek'),
 ]
 
 POLYGON_API_KEY = os.environ.get('POLYGON_API_KEY', '')
